@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Mininig = () => {
+const Mining = () => {
   return (
     <div>Mininig</div>
   )
 }
 
-export default Mininig
+export default Mining
