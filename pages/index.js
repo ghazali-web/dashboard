@@ -1,25 +1,7 @@
-import { Blocks, Transactions } from '@/constant';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
+import axios from "axios";
+import { Blocks, Transactions } from "@/constant";
 
-const Home = () => {
-  const [transactions, setTransactions] = useState(Transactions);
-  const [blocks, setBlocks] = useState(Blocks);
-
-  // useEffect(() => {
-  //   const fetchTransactions = async () => {
-  //     const res = await axios.get('/transaction/all');
-  //     setTransactions(res.data.Transactions);
-  //   };
-  //   fetchTransactions();
-
-  //   const fetchBlocks = async () => {
-  //     const res = await axios.get('/block/all');
-  //     setBlocks(res.data.Blocks);
-  //   };
-  //   fetchBlocks();
-  // }, []);
-
+const Home = ({ Blocks, Transactions }) => {
   return (
     <div className="mx-auto max-w-7xl p-8">
       <h1 className="text-3xl font-bold mb-8"> Transactions and Blocks</h1>
@@ -36,7 +18,7 @@ const Home = () => {
               </tr>
             </thead>
             <tbody>
-              {transactions.map((transaction) => (
+              {Transactions.map((transaction) => (
                 <tr key={transaction.id} className="bg-gray-100">
                   <td className="border px-4 py-2">{transaction.from}</td>
                   <td className="border px-4 py-2">{transaction.to}</td>
@@ -58,11 +40,13 @@ const Home = () => {
               </tr>
             </thead>
             <tbody>
-              {blocks.map((block) => (
+              {Blocks.map((block) => (
                 <tr key={block.hash} className="bg-gray-100">
                   <td className="border px-4 py-2">{block.index}</td>
                   <td className="border px-4 py-2">{block.timestamp}</td>
-                  <td className="border px-4 py-2">{block.transactions.length}</td>
+                  <td className="border px-4 py-2">
+                    {block.transactions.length}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -72,5 +56,18 @@ const Home = () => {
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  const Blocks = await axios.get("http://localhost:3000/blocks").data;
+  const Transactions = (await axios.get("http://localhost:3000/transactions"))
+    .data;
+
+  return {
+    props: {
+      Blocks,
+      Transactions,
+    },
+  };
+}
 
 export default Home;
