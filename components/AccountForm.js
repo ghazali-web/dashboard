@@ -1,14 +1,22 @@
 import React, { useState } from "react";
-// import { generateWallet } from "../utils/wallet";
-
+import axios from "axios";
 function AccountForm() {
   const [password, setPassword] = useState("");
   const [wallet, setWallet] = useState({});
-
-  const handleSubmit = (e) => {
-    //   e.preventDefault();
-    //   const newWallet = generateWallet(password);
-    //   setWallet(newWallet);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(password);
+    try {
+      const response = await axios.post("http://localhost:3001/wallet/create", {
+        body: {
+          password: password,
+        },
+      });
+      const newWallet = response.data.wallet;
+      setWallet(newWallet);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -36,17 +44,19 @@ function AccountForm() {
         >
           Generate New Wallet
         </button>
+        
       </form>
       {wallet.address && (
-        <div className="bg-gray-100 p-4 rounded-lg mt-4">
-          <p className="text-gray-700 mb-2">
-            <span className="font-bold">Address:</span> {wallet.address}
-          </p>
-          <p className="text-gray-700 mb-2">
-            <span className="font-bold">Private Key:</span> {wallet.privateKey}
-          </p>
-        </div>
-      )}
+          <div className="bg-gray-100 p-4 rounded-lg mt-4">
+            <p className="text-gray-700 mb-2">
+              <span className="font-bold">Address:</span> {wallet.address}
+            </p>
+            <p className="text-gray-700 mb-2">
+              <span className="font-bold">Private Key:</span>{" "}
+              {wallet.privateKey}
+            </p>
+          </div>
+        )}
     </div>
   );
 }

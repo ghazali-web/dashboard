@@ -7,6 +7,7 @@ import MiningForm from "./miningForm";
 import AccountForm from "./AccountForm";
 import BlocksTable from "./blocksTable";
 import TransactionTable from "./transactionTable";
+import TipsAccount from "./tipsAccount";
 export {
   Navbar,
   Layout,
@@ -17,4 +18,5 @@ export {
   AccountForm,
   BlocksTable,
   TransactionTable,
+  TipsAccount
 };
