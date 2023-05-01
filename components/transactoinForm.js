@@ -1,28 +1,28 @@
 import { useState } from "react";
-
+import axios from "axios";
 function TransactionForm() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [amount, setAmount] = useState("");
   const [gas, setGas] = useState("");
   const [privateKey, setPrivateKey] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/transaction/send", {
-        from,
-        to,
-        amount,
-        gas,
-        privateKey,
+      const res = await axios.post("http://localhost:3001/transaction/send", {
+        from: from,
+        to: to,
+        amount: amount,
+        gas: gas,
+        privateKey: privateKey,
       });
-
-      setStatus("Transaction sent successfully!");
+      console.log(res);
+      setStatus(true);
     } catch (error) {
-      setStatus("Failed to send transaction");
+      setStatus(false);
     }
   };
 
@@ -101,7 +101,7 @@ function TransactionForm() {
             Private Key
           </label>
           <input
-            type="password"
+            type="text"
             name="privateKey"
             value={privateKey}
             onChange={(e) => setPrivateKey(e.target.value)}
@@ -116,17 +116,16 @@ function TransactionForm() {
           >
             Send Transaction
           </button>
-          <div className="flex items-center">
-            <span className="mr-2 text-gray-600">Gas Price (Gwei):</span>
-            <input
-              type="text"
-              className="w-16 px-2 py-1 bg-gray-200 rounded-md text-gray-600"
-              placeholder="10"
-            />
-          </div>
-          
         </div>
       </form>
+
+      <div className="mt-4">
+        {status && (
+          <p className="text-green-500 font-medium">
+            Transaction sent successfully!
+          </p>
+        )}
+      </div>
     </div>
   );
 }

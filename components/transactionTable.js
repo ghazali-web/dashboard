@@ -13,8 +13,8 @@ const TransactionTable = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((transaction) => (
-            <tr key={transaction.id} className="bg-gray-100">
+          {data.map((transaction, index) => (
+            <tr key={index} className="bg-gray-100">
               <td className="border px-4 py-2">{transaction.from}</td>
               <td className="border px-4 py-2">{transaction.to}</td>
               <td className="border px-4 py-2">{transaction.amount}</td>
