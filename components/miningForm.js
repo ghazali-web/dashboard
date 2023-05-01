@@ -1,25 +1,45 @@
 import { useState } from "react";
-
+import axios from "axios";
 const MiningForm = () => {
   const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState("");
   const [password, setPassword] = useState("");
+  const [miningStatus, setMiningStatus] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // logic to start mining
+    try {
+      const response = await axios.post("http://localhost:3001/mine/start", {
+        body: {
+          walletAddress: publicKey,
+          privateKey: privateKey,
+        },
+
+        // password: password,
+      });
+      setMiningStatus(response.data.status);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleStopMining = () => {
-    // logic to stop mining
+  const handleStopMining = async () => {
+    try {
+      const response = await axios.post("http://localhost:3001/mine/stop");
+      setMiningStatus(response.data.status);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 w-96">
       <h2 className="text-lg font-medium mb-4">Start Mining</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="mb-4">
-          <label className="text-gray-700 font-medium mb-2 block" htmlFor="publicKey">
+          <label
+            className="text-gray-700 font-medium mb-2 block"
+            htmlFor="publicKey"
+          >
             Public Key
           </label>
           <input
@@ -32,7 +52,10 @@ const MiningForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="text-gray-700 font-medium mb-2 block" htmlFor="privateKey">
+          <label
+            className="text-gray-700 font-medium mb-2 block"
+            htmlFor="privateKey"
+          >
             Private Key
           </label>
           <input
@@ -45,7 +68,10 @@ const MiningForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="text-gray-700 font-medium mb-2 block" htmlFor="password">
+          <label
+            className="text-gray-700 font-medium mb-2 block"
+            htmlFor="password"
+          >
             Password
           </label>
           <input
@@ -60,16 +86,24 @@ const MiningForm = () => {
         <button
           className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg mr-4"
           type="submit"
+          onClick={handleSubmit}
         >
           Start Mining
         </button>
         <button
           className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg"
+          type="submit"
           onClick={handleStopMining}
         >
           Stop Mining
         </button>
       </form>
+
+      <div className="mt-4">
+        {miningStatus && (
+          <p className="text-green-500 font-medium">Mining start...</p>
+        )}
+      </div>
     </div>
   );
 };
