@@ -18,7 +18,7 @@ const Home = ({ Blocks, Transactions }) => {
               </tr>
             </thead>
             <tbody>
-              {Transactions.map((transaction) => (
+              {Transactions&&Transactions.map((transaction) => (
                 <tr key={transaction.id} className="bg-gray-100">
                   <td className="border px-4 py-2">{transaction.from}</td>
                   <td className="border px-4 py-2">{transaction.to}</td>
@@ -40,7 +40,7 @@ const Home = ({ Blocks, Transactions }) => {
               </tr>
             </thead>
             <tbody>
-              {Blocks.map((block) => (
+              {Blocks&&Blocks.map((block) => (
                 <tr key={block.hash} className="bg-gray-100">
                   <td className="border px-4 py-2">{block.index}</td>
                   <td className="border px-4 py-2">{block.timestamp}</td>
