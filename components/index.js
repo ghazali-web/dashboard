@@ -5,6 +5,8 @@ import TransactionForm from "./transactoinForm";
 import Tips from "./Tips";
 import MiningForm from "./miningForm";
 import AccountForm from "./AccountForm";
+import BlocksTable from "./blocksTable";
+import TransactionTable from "./transactionTable";
 export {
   Navbar,
   Layout,
@@ -13,4 +15,6 @@ export {
   Tips,
   MiningForm,
   AccountForm,
+  BlocksTable,
+  TransactionTable,
 };
