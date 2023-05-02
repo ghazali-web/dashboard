@@ -10,14 +10,16 @@ const TransactionTable = ({ data }) => {
             <th className="px-4 py-2 text-left">From</th>
             <th className="px-4 py-2 text-left">To</th>
             <th className="px-4 py-2 text-left">Amount</th>
+            <th className="px-4 py-2 text-left">gas</th>
           </tr>
         </thead>
         <tbody>
           {data.map((transaction, index) => (
             <tr key={index} className="bg-gray-100">
-              <td className="border px-4 py-2">{transaction.from}</td>
-              <td className="border px-4 py-2">{transaction.to}</td>
+              <td className="border px-4 py-2">0x{transaction.from.substring(0,32)}</td>
+              <td className="border px-4 py-2">0x{transaction.to.substring(0,32)}</td>
               <td className="border px-4 py-2">{transaction.amount}</td>
+              <td className="border px-4 py-2">{transaction.gas}</td>
             </tr>
           ))}
         </tbody>

@@ -10,10 +10,8 @@ const MiningForm = () => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:3001/mine/start", {
-        body: {
-          walletAddress: publicKey,
-          privateKey: privateKey,
-        },
+        walletAddress: publicKey,
+        privateKey: privateKey,
 
         // password: password,
       });
